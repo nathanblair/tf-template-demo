@@ -5,8 +5,9 @@ variable "use_localstack" {
 }
 
 locals {
-  localstack_url    = "http://localhost:4566"
-  localstack_s3_url = "http://s3.localhost.localstack.cloud:4566"
+  localstack_port   = 4566
+  localstack_url    = "http://localhost:${local.localstack_port}"
+  localstack_s3_url = "http://s3.localhost.localstack.cloud:${local.localstack_port}"
   localstack_endpoints = {
     apigateway  = local.localstack_url
     cloudwatch  = local.localstack_url
