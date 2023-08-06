@@ -1,6 +1,5 @@
 variable "default_region" {
   description = "Default AWS Region"
-  default     = "us-west-1"
   type        = string
 }
 
