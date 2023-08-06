@@ -30,6 +30,11 @@ variable "number_of_public_subnets" {
   type        = number
 }
 
+variable "vpc_azs" {
+  description = "List of Availability Zones for VPC resources"
+  type        = list(string)
+}
+
 locals {
   private_subnets = [for each_subnet in range(var.number_of_private_subnets) : "10.0.${each_subnet}.0/${var.cidr_private_subnet_space}"]
   public_subnets  = [for each_subnet in range(var.number_of_public_subnets) : "10.0.10${each_subnet}.0/${var.cidr_public_subnet_space}"]
@@ -41,7 +46,7 @@ module "vpc" {
   name = "vpc"
   cidr = "10.0.0.0/${var.cidr_space}"
 
-  azs             = local.availability_zones
+  azs             = var.vpc_azs
   private_subnets = local.private_subnets
   public_subnets  = local.public_subnets
 
