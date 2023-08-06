@@ -6,24 +6,31 @@ dotenv:
 env:
   TF_WORKSPACE:
     sh: git branch --show-current
+  TF_VAR_use_localstack: true
 
 vars:
-  DEV_WORKSPACE_NAME: dev
+  BACKEND_DIR: backends
+  DYNAMODB_TABLE_STATE_NAME: siemens-disw-eda-infra-state
 
 tasks:
   terraform-init:
-    desc: Run a terraform init
+    desc: Initialize terraform
     silent: true
     cmd: |
-      if [ "${TF_WORKSPACE}" = "{{.DEV_WORKSPACE_NAME}}" ]; then
+      if [ ${TF_VAR_use_localstack} = true ]; then
         echo Using local backend...
-        terraform init {{.CLI_ARGS}}
+        terraform init -backend-config="{{.BACKEND_DIR}}/local.tf" {{.CLI_ARGS}}
       else
         echo Using s3 backend...
-        terraform init -backend-config="key=${TF_WORKSPACE}.tfstate" {{.CLI_ARGS}}
+        terraform init \
+          -backend-config="{{.BACKEND_DIR}}/s3.tf" \
+          -backend-config="key=${TF_WORKSPACE}.tfstate" \
+          -backend-config="dynamodb_table={{.DYNAMODB_TABLE_STATE_NAME}}" \
+          {{.CLI_ARGS}}
       fi
 
   terraform:
+    desc: Run a terraform command
     silent: false
     deps:
       - task: terraform-init
@@ -33,8 +40,10 @@ tasks:
       - terraform workspace list
       - terraform {{.CLI_ARGS}}
 
+  localstack:
+    desc: Run a localstack command
+    cmd: localstack {{.CLI_ARGS}}
+
   default:
     silent: true
     cmd: task --list-all
-
-  localstack: localstack {{.CLI_ARGS}}
