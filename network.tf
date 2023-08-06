@@ -52,19 +52,12 @@ module "vpc" {
   azs = var.vpc_azs
   private_subnets = [
     for each_subnet_index in range(var.number_of_private_subnets) :
-    cidrsubnet(
-      local.cidr_block,
-      var.cidr_private_subnet_space - var.cidr_space,
-      each_subnet_index + 1,
+    cidrsubnet(local.cidr_block, var.cidr_private_subnet_space - var.cidr_space, each_subnet_index + 1
     )
   ]
   public_subnets = [
     for each_subnet_index in range(var.number_of_public_subnets) :
-    cidrsubnet(
-      local.cidr_block,
-      var.cidr_public_subnet_space - var.cidr_space,
-      each_subnet_index + 1,
-    )
+    cidrsubnet(local.cidr_block, var.cidr_public_subnet_space - var.cidr_space, each_subnet_index + 101)
   ]
 
   enable_nat_gateway = true
