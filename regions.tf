@@ -7,8 +7,14 @@ variable "number_of_availability_zones" {
   description = "Number of availability zones to use"
   default     = 1
   type        = number
+  validation {
+    condition     = var.number_of_availability_zones <= 3 && var.number_of_availability_zones > 0
+    error_message = "Number of Availibility Zones must be > 0 and <= 3"
+  }
 }
 
 locals {
-  availability_zones = [for each_zone in range(var.number_of_availability_zones) : "${var.default_region}${each_zone}"]
+  az_map = { 1 = "a", 2 = "b", 3 = "c", }
+
+  availability_zones = [for each_zone in range(var.number_of_availability_zones) : "${var.default_region}${local.az_map[each_zone]}"]
 }
