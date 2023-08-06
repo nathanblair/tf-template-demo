@@ -1,0 +1,5 @@
+**.DS_Store
+**.terraform
+**secrets**
+
+**_override.tf

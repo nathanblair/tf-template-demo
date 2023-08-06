@@ -1,0 +1,40 @@
+version: "3"
+
+dotenv:
+  - secrets.env
+
+env:
+  TF_WORKSPACE:
+    sh: git branch --show-current
+
+vars:
+  DEV_WORKSPACE_NAME: dev
+
+tasks:
+  terraform-init:
+    desc: Run a terraform init
+    silent: true
+    cmd: |
+      if [ "${TF_WORKSPACE}" = "{{.DEV_WORKSPACE_NAME}}" ]; then
+        echo Using local backend...
+        terraform init {{.CLI_ARGS}}
+      else
+        echo Using s3 backend...
+        terraform init -backend-config="key=${TF_WORKSPACE}.tfstate" {{.CLI_ARGS}}
+      fi
+
+  terraform:
+    silent: false
+    deps:
+      - task: terraform-init
+        vars:
+          CLI_ARGS:
+    cmds:
+      - terraform workspace list
+      - terraform {{.CLI_ARGS}}
+
+  default:
+    silent: true
+    cmd: task --list-all
+
+  localstack: localstack {{.CLI_ARGS}}
