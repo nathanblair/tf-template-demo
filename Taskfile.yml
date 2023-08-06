@@ -1,0 +1,17 @@
+version: "3"
+
+dotenv:
+  - secrets.env
+
+# vars:
+
+tasks:
+  test:
+    desc: Run tests on terraform
+    silent: false
+    cmds:
+      - terraform test {{.CLI_ARGS}}
+
+  default:
+    silent: true
+    cmd: task --list-all
