@@ -55,7 +55,7 @@ module "vpc" {
     cidrsubnet(
       local.cidr_block,
       var.cidr_private_subnet_space - var.cidr_space,
-      var.cidr_private_subnet_space,
+      each_subnet_index + 1,
     )
   ]
   public_subnets = [
@@ -63,7 +63,7 @@ module "vpc" {
     cidrsubnet(
       local.cidr_block,
       var.cidr_public_subnet_space - var.cidr_space,
-      var.cidr_public_subnet_space,
+      each_subnet_index + 1,
     )
   ]
 
@@ -72,9 +72,9 @@ module "vpc" {
 }
 
 output "public_subnets" {
-  value = module.vpc.public_subnets
+  value = module.vpc.public_subnets_cidr_blocks
 }
 
 output "private_subnets" {
-  value = module.vpc.private_subnets
+  value = module.vpc.private_subnets_cidr_blocks
 }

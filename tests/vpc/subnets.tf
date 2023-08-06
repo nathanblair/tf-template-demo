@@ -12,8 +12,22 @@ terraform {
   }
 }
 
+module "vpc" {
+  source = "../.."
+  providers = {
+    aws = aws
+  }
+
+  vpc_azs = ["us-west-1a"]
+}
+
 provider "aws" {
-  # region = var.default_region
+  region = "us-west-1"
+
+  access_key = "test"
+  secret_key = "test"
+
+  s3_use_path_style = true
 
   skip_credentials_validation = true
   skip_metadata_api_check     = true
@@ -27,15 +41,6 @@ provider "aws" {
     route53     = local.localstack_url
     s3          = local.localstack_s3_url
   }
-}
-
-module "vpc" {
-  source = "../.."
-  providers = {
-    aws = aws
-  }
-
-  vpc_azs = ["us-west-1a"]
 }
 
 resource "test_assertions" "private_subnets" {
