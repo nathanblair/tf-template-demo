@@ -8,7 +8,8 @@ This is a terraform module and is only meant for consumption as a module. For va
 
 ### Tools
 
-- `localstack`
+- `docker` (with Compose)
+- `localstack` (need an API key to have full test usage - see [here](#localstack) for what systems provide false positives)
 - `go-task`
 - `aws-cli`
 - `terraform`
@@ -25,11 +26,14 @@ Expose module behavior through feature flags as input variables.
 
 ## Testing
 
-Testing is accomplished through `terraform test` and `localstack`.
+Testing is accomplished through `terraform test` and `localstack` (via Docker Compose).
 
 ### Running tests
 
-Run `terraform test`
+Run
+
+- `docker compose up -d`
+- `terraform test`
 
 ### Writing tests
 
