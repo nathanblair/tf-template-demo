@@ -13,6 +13,7 @@ This is a terraform module and is only meant for consumption as a module. For va
 - `go-task`
 - `aws-cli`
 - `terraform`
+- `secrets.env` file in module root populated with `LOCALSTACK_API_KEY='${YOUR_LOCALSTACK_API_KEY}'`
 
 # Contributing
 
