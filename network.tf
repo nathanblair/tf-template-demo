@@ -39,6 +39,12 @@ variable "vpc_azs" {
   type        = list(string)
 }
 
+variable "enable_vpn_gateway" {
+  description = "Enable the VPN Gateway"
+  type        = bool
+  default     = false
+}
+
 locals {
   cidr_block = "${var.vpc_prefix}/${var.cidr_space}"
 }
@@ -61,7 +67,7 @@ module "vpc" {
   ]
 
   enable_nat_gateway = true
-  enable_vpn_gateway = false
+  enable_vpn_gateway = var.enable_vpn_gateway
 }
 
 output "public_subnets" {
