@@ -37,7 +37,7 @@ Good test-driven development starts with writing the test module before writing 
 
 See [here](https://developer.hashicorp.com/terraform/language/modules/testing-experiment#sending-feedback) for general information on writing tests.
 
-See the [`vpc test`](./tests/vpc/subnets.tf) for an example on how to configure the modules and AWS provider such that `terraform test`s are performed locally with `localstack`.
+See the [`default`](./tests/default) test suite for an example on how to configure the modules and AWS provider such that `terraform test`s are performed locally with `localstack`.
 
 - Create a new test suite if needed for your work.
 
