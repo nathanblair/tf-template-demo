@@ -2,7 +2,6 @@ locals {
   localstack_port = 4566
   localstack_url  = "http://localhost:${local.localstack_port}"
   default_tags = {
-    localstack    = true
     managed       = true
     managed_by    = "terraform"
     configuration = "test"
