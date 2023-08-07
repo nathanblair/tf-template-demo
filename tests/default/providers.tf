@@ -1,4 +1,6 @@
 locals {
+  default_region = "us-west-1"
+
   localstack_port = 4566
   localstack_url  = "http://localhost:${local.localstack_port}"
   default_tags = {
@@ -27,7 +29,7 @@ provider "test" {}
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack
 provider "aws" {
-  region = "us-west-1"
+  region = local.default_region
 
   access_key = "test"
   secret_key = "test"

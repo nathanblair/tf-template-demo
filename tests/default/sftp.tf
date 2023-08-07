@@ -2,16 +2,15 @@ resource "test_assertions" "sftp_enabled" {
   component = "sftp"
   equal "enabled" {
     description = "SFTP is enabled"
-    got         = module.infra.transfer_protocols
-    want        = ["DOESN'T WORK"]
+    want        = ["SFTP"]
+    got         = flatten(module.infra.transfer_protocols)
   }
 }
 
-resource "test_assertions" "sftp_access" {
+resource "test_assertions" "sftp_endpoint" {
   component = "sftp"
-  equal "accessible" {
-    description = "SFTP is accessible"
-    got         = module.infra.transfer_endpoint
-    want        = "DOESN'T WORK"
+  check "endpoint" {
+    description = "SFTP has an endpoint"
+    condition   = can(regex("[a-z]+.server.transfer.${local.default_region}.amazonaws.com", module.infra.transfer_endpoint))
   }
 }
