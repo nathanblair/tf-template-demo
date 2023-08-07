@@ -1,6 +1,10 @@
+locals {
+  domain_name = "test.com"
+}
+
 module "infra" {
   source = "../.."
 
-  name    = "test"
-  vpc_azs = ["us-west-1a"]
+  domain_name = local.domain_name
+  vpc_azs     = ["us-west-1a"]
 }

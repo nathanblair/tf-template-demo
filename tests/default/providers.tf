@@ -6,7 +6,8 @@ locals {
     managed       = true
     managed_by    = "terraform"
     configuration = "test"
-    name          = "test"
+    customer      = "test"
+    cost_center   = 0
   }
 }
 
