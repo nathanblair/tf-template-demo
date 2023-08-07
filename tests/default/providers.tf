@@ -15,8 +15,15 @@ terraform {
     test = {
       source = "terraform.io/builtin/test"
     }
+
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "3.0.2"
+    }
   }
 }
+
+provider "test" {}
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack
 provider "aws" {
@@ -36,6 +43,8 @@ provider "aws" {
   skip_requesting_account_id  = true
 
   endpoints {
-    ec2 = local.localstack_url
+    ec2      = local.localstack_url
+    transfer = local.localstack_url
+    route53  = local.localstack_url
   }
 }

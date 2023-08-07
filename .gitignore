@@ -3,3 +3,6 @@
 **secrets**
 
 **_override.tf
+**.tfstate**
+
+tests/**/*.lock.hcl

@@ -1,3 +1,13 @@
+variable "server_ami" {
+  description = "AMI ID for the server instance"
+  type        = string
+}
+
+variable "client_ami" {
+  description = "AMI ID for the client instance"
+  type        = string
+}
+
 variable "enable_server_instance" {
   description = "Enable the server instance"
   default     = true
@@ -11,7 +21,8 @@ variable "enable_client_instance" {
 }
 
 resource "aws_instance" "server" {
-  ami           = "ami-000001"
+  count         = var.enable_server_instance ? 1 : 0
+  ami           = var.server_ami
   instance_type = "t3.micro"
   tags = {
     Name = "server"
@@ -19,7 +30,8 @@ resource "aws_instance" "server" {
 }
 
 resource "aws_instance" "client" {
-  ami           = "ami-000001"
+  count         = var.enable_client_instance ? 1 : 0
+  ami           = var.client_ami
   instance_type = "t3.micro"
   tags = {
     Name = "client"
@@ -27,9 +39,9 @@ resource "aws_instance" "client" {
 }
 
 output "server_instance_state" {
-  value = aws_instance.server.instance_state
+  value = var.enable_server_instance ? aws_instance.server.0.instance_state : "disabled"
 }
 
 output "client_instance_state" {
-  value = aws_instance.client.instance_state
+  value = var.enable_client_instance ? aws_instance.client.0.instance_state : "disabled"
 }

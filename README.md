@@ -44,3 +44,10 @@ See the [`default`](./tests/default) test suite for an example on how to configu
 - Create new files for infrastructure solutions desired (`server.tf`, `database.tf`, etc.).
 
 - Write in `terraform` resources or modules to get tests passing.
+
+# Localstack
+
+Without a pro license these are the known systems that will exhibit false positives for passing tests
+
+- `compute`/EC2 Instances
+- `sftp`/Amazon Transfer Family
